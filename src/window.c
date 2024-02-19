@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:08:06 by marihovh          #+#    #+#             */
-/*   Updated: 2024/02/18 17:36:00 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/02/19 20:06:35 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,32 @@ int init_win(t_data *data)
     data->cam_y = 0.66;
     data->dir_x = -1;
     data->dir_y = 0;
-    data->mlx_ptr = mlx_init();
-    data->win_ptr = mlx_new_window(data->mlx_ptr, data->win_w,
-                                   data->win_h, "Cub3d");
+	data->mlx->ptr = mlx_init();
+	data->mlx->win = mlx_new_window(data->mlx->ptr, data->win_w,
+       data->win_h, "Cub3d");
     return (0);
 }
 
 void draw_colors(t_data *data)
 {
     int x = 0, y = 0;
-    while (y < data->win_h / 2) {
+    while (y < data->win_h / 2)
+	{
         x = 0;
-        while (x < data->win_w) {
-            my_mlx_pixel_put(data, x, y, data->game->celling_c);
+        while (x < data->win_w)
+		{
+            my_mlx_pixel_put(data, x, y, data->celling_c);
             x++;
         }
         y++;
     }
     y = data->win_h / 2;
-    while (y < data->win_h) {
+    while (y < data->win_h)
+	{
         x = 0;
-        while (x < data->win_w) {
-            my_mlx_pixel_put(data, x, y, data->game->flooring_c);
+        while (x < data->win_w)
+		{
+            my_mlx_pixel_put(data, x, y, data->flooring_c);
             x++;
         }
         y++;
@@ -61,8 +65,8 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 	if (x > 0 && y > 0 && data->win_w > x && data->win_h > y)
 	{
-		dst = data->imgg->addr + (y * data->imgg->line_length + x
-				* (data->imgg->bits_per_pixel / 8));
+		dst = data->mlx->image.addr + (y * data->mlx->image.line_length + x
+				* (data->mlx->image.bits_per_pixel / 8));
 		*(unsigned int *)dst = color;
 	}
 }
@@ -91,7 +95,7 @@ void	coloring(t_data *data)
 		x = 0;
 		while (x < data->win_w)
 		{
-			my_mlx_pixel_put(data, x, y, data->game->celling_c);
+			my_mlx_pixel_put(data, x, y, data->celling_c);
             x++;
 		}
         y++;
@@ -102,7 +106,7 @@ void	coloring(t_data *data)
 			x = 0;
 			while (x < data->win_w)
 			{
-			my_mlx_pixel_put(data, x, y, data->game->flooring_c);
+			my_mlx_pixel_put(data, x, y, data->flooring_c);
 			x++;
 		}
 		y++;
@@ -112,17 +116,17 @@ void	coloring(t_data *data)
 int just_do_it(t_data *data)
 {
 
-    data->imgg = malloc(sizeof(t_img)); 
-	data->imgg->img = mlx_new_image(data->mlx_ptr, data->win_w, data->win_h);
-	data->imgg->addr = mlx_get_data_addr(data->imgg->img, &data->imgg->bits_per_pixel,
-			&data->imgg->line_length, &data->imgg->endian);
-	
-	
-	data->game->celling_c = 0x87CEEB;
-    data->game->flooring_c = 0x0b701a; 
+	// exit(0);
+	data->mlx->image.img = mlx_new_image(data->mlx->ptr, screenWidth, screenHeight);
+	data->mlx->image.addr = mlx_get_data_addr(data->mlx->image.img , \
+	&data->mlx->image.bits_per_pixel, &data->mlx->image.line_length, &data->mlx->image.endian);
+	data->celling_c = 0x87CEEB;
+    data->flooring_c = 0x0b701a;
+	//choosing rigth path for player 
     draw_colors(data);
-	//init player woth rigth texture and path
 	ft_raycasting(data);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->imgg->img, 0, 0);
+	//moving
+	mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->image.img, 0, 0);
+	mlx_destroy_image(data->mlx->ptr , data->mlx->image.img);
 	return (0);
 }

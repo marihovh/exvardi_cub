@@ -30,9 +30,10 @@
 
 typedef struct s_data t_data;
 typedef struct s_img  t_img;
-typedef struct s_hero t_hero;
-typedef struct s_ray  t_ray;
-typedef struct s_game t_game;
+// typedef struct s_hero t_hero;
+// typedef struct s_ray  t_ray;
+// typedef struct s_game t_game;
+typedef struct s_mlx t_mlx;
 
 struct Sprite
 {
@@ -60,21 +61,24 @@ struct	s_img {
 	int		end;
 	int		endian;
 };
-
-struct s_hero
+struct  s_mlx
 {
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x; 
-	double	plane_y;
-	double	move_speed;
-	double	rot_speed;
+	void	*win;
+	void	*ptr;
+	t_img image;
 };
 
-struct s_ray
+
+struct s_data
 {
+	char	**textures;
+	double	move_speed;
+	double	rot_speed;
+	int 	f;
+	int		c;
+	double	tex_pos;
+	int		step;
+	int		map_x;
 	double	time;
 	double	old_time;
 	double	camera_x;
@@ -86,76 +90,49 @@ struct s_ray
 	double	delta_dist_y;
 	double	perp_wall_dist;
 	double	wall_x;
-	double	tex_pos;
-	int		line_height;
-	int		hit;
-	int		side;
-	int		map_x;
-	int		map_y;
-	int		step_x;
-	int		step_y;
-	int		tex_x;
 	int		tex_y;
 	int		tex_height;
 	int		pitch;
-};
-
-struct s_game
-{
-	t_ray	*ray;
-	t_hero	*hero;
-	t_img	*img;
-	t_img	*wall_t;
-	t_img	*n_north;
-	t_img	*s_south;
-	t_img	*w_west;
-	t_img	*e_east;
-	t_img	textures[4];
-	int		step;
-	int		tex_x;
-	int		line_length;
-	int		line_height;
-	int		draw_end;
-	int		draw_start;
+	int		step_x;
+	int		step_y;
+	int		map_y;
+	int		hit;
 	int		celling_c;
 	int		flooring_c;
-	void	*mlx_ptr;
-	void	*win_ptr;
-	int 	**map;
-};
-
-struct s_data
-{
-	char **textures;
-	int f;
-	int c;
-	int win_w;
-	int win_h;
-	int **map;
-	char **map_c;
-	double widht;
-	int height;
-	int count;
-	int nb;
-	int to_map;
-	double cam_x;
+	int		win_w;
+	int		side;
+	int		tex_x;
+	int		draw_end;
+	int		draw_start;
+	int		win_h;
+	int		line_length;
+	int		line_height;
+	int		**map;
+	char	**map_c;
+	double	widht;
+	int		height;
+	int		count;
+	int		nb;
+	int		to_map;
+	double	cam_x;
 	int		tex_num;
+	double		plane_x;
+	double		plane_y;
 	double cam_y;
 	double dir_x;
 	double dir_y;
 	double pos_x;
 	double pos_y;
+	t_mlx	*mlx;
+	t_img	texturess[4];
 	t_img	*imgg;
-	t_hero	*hero;
-	t_ray	*ray;
-	t_game	*game;
 	void	*mlx_ptr;
 	void	*win_ptr;
 };
 
 int do_walls(t_data *data);
-int	key_cross(t_data *data, int keycode, t_img img);
-int	key_hook(int keycode, t_data *data, t_img img);
+int	key_cross(t_data *data, int keycode);
+int	key_hook(int keycode, t_data *data);
 int just_do_it(t_data *data);
 int init_win(t_data *data);
 int any_invalid(char **line, int i, int j);

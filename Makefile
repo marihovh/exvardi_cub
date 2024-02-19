@@ -6,7 +6,7 @@ CC= cc
 FRAME_FLAGS = -lmlx -framework OpenGl -framework AppKit
 G_FLAG = -Imlx
 LIBFT=libft/libft.a
-CFLAGS=-Wall -Werror -Wextra
+CFLAGS=-Wall -Werror -Wextra #-fsanitize=address -g3
 RM=rm -rf
 
 all: libcomp creat_dir $(NAME) $(OBJ) Makefile
