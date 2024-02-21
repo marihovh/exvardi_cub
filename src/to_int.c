@@ -27,30 +27,17 @@ int	get_max_width(char **map)
 	return (max);
 }
 
-void	fill(char *line, int *z_map)
-{
-	int		i;
-	(void)z_map;
-	i = -1;
-	while (line[++i])
-	{
-		printf("line:%c\n", line[i]);
-		// z_map[i] = ft_atoi(line[i]);
-	}
-
-}
 
 void	to_int(t_data *data)
 {
 	int		i = -1;
 	int j;
 
-	data->height = get_height(data->map_c);
-	printf("%i\n", data->height);
-	data->map = (int **)malloc(sizeof(int *) * (data->height));
+	printf("%i\n", data->map_h);
+	data->map = (int **)malloc(sizeof(int *) * (data->map_h));
 	data->widht = get_max_width(data->map_c);
 	printf("%f\n", data->widht);
-	while (++i < data->height)
+	while (++i < data->map_h)
 		data->map[i] = (int *)malloc(sizeof(int *) * (data->widht));
 	i = -1;
 	while (data->map_c[++i])

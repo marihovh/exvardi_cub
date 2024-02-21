@@ -34,7 +34,7 @@ int fill_textures(char *line, char **textures)
 	return (ret);
 }
 
-int init_textures(char **line, int fd, char **textures)
+int init_textures(char **line, int fd, char **textures, int *to_map)
 {
 	int i = -1;
 	while (++i < 4)
@@ -42,28 +42,34 @@ int init_textures(char **line, int fd, char **textures)
 		if (!(*line) || fill_textures(*line, textures))
 			return (errorik(T_ERROR));
 		*line = get_next_line(fd);
+		(*to_map)++;
 		while (empty_line(*line))
+		{
 			*line = get_next_line(fd);
+			(*to_map)++;
+		}
 	}
 	return (0);
 }
 
 int first_texture(char *line, int fd, t_data *data)
 {
-	if (init_textures(&line, fd, data->textures))
+	if (init_textures(&line, fd, data->textures, &data->to_map))
 		return (1);
 	if (line && is_color(line))
 	{
 		if (init_colors(line, data))
 			return (errorik(C_ERROR));
 		line = get_next_line(fd);
-		while (empty_line(line))
+		while (empty_line(line) && ++data->to_map)
 			line = get_next_line(fd);
 		if (!line || init_colors(line, data))
 			return (errorik(C_ERROR));
+		data->to_map+=2;
 	}
 	else
 		return (errorik(C_ERROR));
+	printf("Ave Maria\n");
 	if (parce_map(fd ,line, data))
 		return (1);
 	return (0);

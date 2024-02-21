@@ -30,9 +30,7 @@
 
 typedef struct s_data t_data;
 typedef struct s_img  t_img;
-// typedef struct s_hero t_hero;
-// typedef struct s_ray  t_ray;
-// typedef struct s_game t_game;
+typedef struct s_hero t_hero;
 typedef struct s_mlx t_mlx;
 
 struct Sprite
@@ -68,6 +66,12 @@ struct  s_mlx
 	t_img image;
 };
 
+struct s_hero
+{
+	int		view;
+	int		x;
+	int		y;
+};
 
 struct s_data
 {
@@ -128,6 +132,10 @@ struct s_data
 	t_img	*imgg;
 	void	*mlx_ptr;
 	void	*win_ptr;
+	int		size;
+	t_hero 	*hero;
+	char *filename;
+	int map_h;
 };
 
 int do_walls(t_data *data);
@@ -153,7 +161,7 @@ int is_color(char *line);
 int first_texture(char *line, int fd, t_data *data);
 int set_texture(char *line, char **textures, int i);
 int fill_textures(char *line, char **textures);
-int init_textures(char **line, int fd, char **textures);
+int init_textures(char **line, int fd, char **textures, int *to_map);
 int first_color(char *line, int fd, t_data *data);
 int parce_map(int fd, char *line, t_data* data);
 int can_be(char ch);

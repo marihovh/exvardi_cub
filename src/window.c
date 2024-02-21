@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:08:06 by marihovh          #+#    #+#             */
-/*   Updated: 2024/02/19 20:06:35 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:02:28 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	ft_raycasting(t_data *data)
 		counting_delta_dist(data,i);
 		calculate_step_init_side_dist_before_dd(data);
 		ft_dda_algorithm(data);
+
 		camera_frame_counting(data);
 		ft_texture_calculation(data);
 		textures_drawing(data, i);
@@ -123,7 +124,7 @@ int just_do_it(t_data *data)
 	data->celling_c = 0x87CEEB;
     data->flooring_c = 0x0b701a;
 	//choosing rigth path for player 
-    draw_colors(data);
+    // draw_colors(data);
 	ft_raycasting(data);
 	//moving
 	mlx_put_image_to_window(data->mlx->ptr, data->mlx->win, data->mlx->image.img, 0, 0);

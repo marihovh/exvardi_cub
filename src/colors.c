@@ -6,7 +6,7 @@
 /*   By: marihovh <marihovh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 19:25:51 by marihovh          #+#    #+#             */
-/*   Updated: 2024/01/17 19:27:10 by marihovh         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:05:46 by marihovh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	first_color(char *line, int fd, t_data *data)
 		return (errorik(C_ERROR));
 	if (is_texture(line))
 	{
-		if (init_textures(&line, fd, data->textures))
+		if (init_textures(&line, fd, data->textures, &data->to_map))
 			return (1);
 	}
 	else

@@ -50,6 +50,7 @@ int check_map(t_data *data)
 				data->pos_y = j;
 				data->count++;
 			}
+			//chose path;
 			if (data->map_c[i][j] == 'W' || data->map_c[i][j] == 'E' || data->map_c[i][j] == 'S' || data->map_c[i][j] == '0' || data->map_c[i][j] == 'N')
 				if (check_neighbor(data->map_c, i, j))
 					return (1);
@@ -66,16 +67,35 @@ int parce_map(int fd, char *line, t_data* data)
 
 	i = 0;
 	line = get_next_line(fd);
+	data->to_map++;
 	while (empty_line(line))
+	{
 		line = get_next_line(fd);
+		data->to_map++;
+	}
 	if (!line)
 		return (errorik(M_ERROR));
-	data->map_c = malloc(sizeof(char *) * 1000);
 	while (line)
+	{
+		data->map_h++;
+		line = get_next_line(fd);
+		if (empty_line(line))
+			break ;
+	}
+	close(fd);
+	fd = open(data->filename, O_RDONLY);
+	while (i++ < data->to_map)
+	{
+		line = get_next_line(fd);
+	}
+	i = 0;
+	data->map_c = malloc(sizeof(char *) * data->map_h);
+	while (i < data->map_h)
 	{
 		data->map_c[i++] = ft_strdup_t(line);
 		line = get_next_line(fd);
 	}
+	data->size = data->map_h;
 	data->map_c[i] = NULL;
 	if (check_map(data))
 		return (errorik(M_ERROR));
@@ -91,9 +111,13 @@ int	inner_map(int fd, t_data *data)
 	i = -1;
 	line = get_next_line(fd);
 	while (empty_line(line))
+	{
 		line = get_next_line(fd);
+		data->to_map++;
+	}
 	if (line && is_texture(line))
 	{
+	// printf("Ave Maria\n");
 		if (first_texture(line, fd, data))
 			return (1);
 	}
@@ -116,6 +140,7 @@ int	parcing(t_data *data, char **argv)
 	int		fd;
 
 	file_ext = argv[1];
+	data->filename = ft_strdup(argv[1]);
 	if (ft_strlen(file_ext) <= 4)
 		return (errorik(F_ERROR));
 	file_ext += ft_strlen(file_ext) - 4;
